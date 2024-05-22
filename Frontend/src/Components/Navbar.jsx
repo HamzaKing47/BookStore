@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Login from "./Login";
+import { userAuth } from "../context/AuthProvider";
+import Logout from "./Logout";
 
 export default function () {
+  const [authUser, setAuthUser] = userAuth();
+
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
   );
@@ -143,17 +147,21 @@ export default function () {
                 </svg>
               </label>
             </div>
-            <div className="">
-              <Link
-                className="bg-black text-white p-2 rounded-md hover:bg-slate-800 duration-300 curson-pointer"
-                onClick={() =>
-                  document.getElementById("my_modal_3").showModal()
-                }
-              >
-                Login
-              </Link>
-              <Login />
-            </div>
+            {authUser ? (
+              <Logout />
+            ) : (
+              <div className="">
+                <Link
+                  className="bg-black text-white p-2 rounded-md hover:bg-slate-800 duration-300 curson-pointer"
+                  onClick={() =>
+                    document.getElementById("my_modal_3").showModal()
+                  }
+                >
+                  Login
+                </Link>
+                <Login />
+              </div>
+            )}
           </div>
         </div>
       </div>
